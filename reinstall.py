@@ -87,16 +87,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 echo -e "{new_pass}\\n{new_pass}" | passwd" {chosen_os}"
 reboot
 """
-
-# Upload file ke VPS
-sftp = ssh.open_sftp()
-remote_path = "/root/ganti.sh"
-with sftp.file(remote_path, "w") as f:
-    f.write(bash_script)
-sftp.chmod(remote_path, 0o755)
-sftp.close()
-
 try:
+    # Upload file ke VPS
+    sftp = ssh.open_sftp()
+    remote_path = "/root/ganti.sh"
+    with sftp.file(remote_path, "w") as f:
+        f.write(bash_script)
+    sftp.chmod(remote_path, 0o755)
+    sftp.close()
+
+    # Jalankan script dengan parameter dari user
     stdin, stdout, stderr = ssh.exec_command(f"bash {remote_path}")
     exit_status = stdout.channel.recv_exit_status()
     output = stdout.read().decode()
@@ -104,10 +104,32 @@ try:
     print("Output:", output)
     print("Error:", error)
     print("Exit Status:", exit_status)
+
 except Exception as e:
-    print("Terjadi kesalahan saat eksekusi remote script:", e)
+    print("Terjadi kesalahan saat upload atau eksekusi script:", e)
+
 finally:
     ssh.close()
+# Upload file ke VPS
+#sftp = ssh.open_sftp()
+#remote_path = "/root/ganti.sh"
+#with sftp.file(remote_path, "w") as f:
+    #f.write(bash_script)
+#sftp.chmod(remote_path, 0o755)
+#sftp.close()
+
+#try:
+    #stdin, stdout, stderr = ssh.exec_command(f"bash {remote_path}")
+  #  exit_status = stdout.channel.recv_exit_status()
+   # output = stdout.read().decode()
+   # error = stderr.read().decode()
+    #print("Output:", output)
+   # print("Error:", error)
+   # print("Exit Status:", exit_status)
+#except Exception as e:
+    #$print("Terjadi kesalahan saat eksekusi remote script:", e)
+#finally:
+    #ssh.close()
 
             # Eksekusi script
   #          ssh.exec_command(f"bash {remote_path}")
