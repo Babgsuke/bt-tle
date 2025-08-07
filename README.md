@@ -1,1 +1,1 @@
-<pre><code>apt update && apt upgrade -y && wget -q https://raw.githubusercontent.com/Babgsuke/bt-tle/main/reinstall.py && wget -q https://raw.githubusercontent.com/Babgsuke/bt-tle/main/requirements.txt
+<pre><code>apt update && apt upgrade -y && apt install python3 python3-pip -y && wget -q https://raw.githubusercontent.com/Babgsuke/bt-tle/main/reinstall.py && wget -q https://raw.githubusercontent.com/Babgsuke/bt-tle/main/requirements.txt && pip install -r requirements.txt
