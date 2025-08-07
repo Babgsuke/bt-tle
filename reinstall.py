@@ -87,55 +87,35 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 echo -e "{new_pass}\\n{new_pass}" | passwd" {chosen_os}"
 reboot
 """
-try:
-    # Upload file ke VPS
-    sftp = ssh.open_sftp()
-    remote_path = "/root/ganti.sh"
-    with sftp.file(remote_path, "w") as f:
-        f.write(bash_script)
-    sftp.chmod(remote_path, 0o755)
-    sftp.close()
-
-    # Jalankan script dengan parameter dari user
-    stdin, stdout, stderr = ssh.exec_command(f"bash {remote_path}")
-    exit_status = stdout.channel.recv_exit_status()
-    output = stdout.read().decode()
-    error = stderr.read().decode()
-    print("Output:", output)
-    print("Error:", error)
-    print("Exit Status:", exit_status)
-
-except Exception as e:
-    print("Terjadi kesalahan saat upload atau eksekusi script:", e)
-
-finally:
-    ssh.close()
 # Upload file ke VPS
-#sftp = ssh.open_sftp()
-#remote_path = "/root/ganti.sh"
-#with sftp.file(remote_path, "w") as f:
-    #f.write(bash_script)
-#sftp.chmod(remote_path, 0o755)
-#sftp.close()
+sftp = ssh.open_sftp()
+remote_path = "/root/ganti.sh"
+with sftp.file(remote_path, "w") as f:
+    f.write(bash_script)
+sftp.chmod(remote_path, 0o755)
+sftp.close()
 
-#try:
-    #stdin, stdout, stderr = ssh.exec_command(f"bash {remote_path}")
-  #  exit_status = stdout.channel.recv_exit_status()
-   # output = stdout.read().decode()
-   # error = stderr.read().decode()
-    #print("Output:", output)
-   # print("Error:", error)
-   # print("Exit Status:", exit_status)
-#except Exception as e:
-    #$print("Terjadi kesalahan saat eksekusi remote script:", e)
-#finally:
-    #ssh.close()
+stdin, stdout, stderr = ssh.exec_command(f'bash {remote_path}')
+
+# Tunggu sampai perintah selesai dieksekusi
+exit_status = stdout.channel.recv_exit_status()
+
+# (Opsional) Baca hasil output dan error
+output = stdout.read().decode()
+error = stderr.read().decode()
+
+print("Output:", output)
+print("Error:", error)
+print("Exit Status:", exit_status)
+
+# Setelah selesai, baru tutup koneksi SSH
+ssh.close()
 
             # Eksekusi script
-  #          ssh.exec_command(f"bash {remote_path}")
-          #  stdin, stdout, stderr = ssh.exec_command(f'bash {remote_path}')
+            #ssh.exec_command(f"bash {remote_path}")
+            #stdin, stdout, stderr = ssh.exec_command(f'bash {remote_path}')
 #exit_status = stdout.channel.recv_exit_status()  # Tunggu sampai selesai
-           # ssh.close()
+            #ssh.close()
 
             await update.message.reply_text(" Vps anda sedang di rebuild,l.Silanhkan tunggu 5 menit.")
         except Exception as e:
