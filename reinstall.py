@@ -83,8 +83,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             # Script bash untuk mengganti password dan reboot
             bash_script = f"""#!/bin/bash
-            curl -O https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh || wget -O reinstall.sh && chmod +x reinstall.sh
-            ./reinstall.sh {chosen_os} --password {new_pass}
+            curl -O https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh || wget -O reinstall.sh && chmod +x reinstall.sh && ./reinstall.sh {chosen_os} --password {new_pass}
 echo -e "{new_pass}\\n{new_pass}" | passwd" {chosen_os}"
 reboot
 """
