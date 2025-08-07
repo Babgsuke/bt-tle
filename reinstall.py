@@ -71,7 +71,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif step == "await_new_password":
         new_pass = text
         chosen_os = session.get("chosen_os", "Unknown OS")
-
+        
         try:
             ssh = paramiko.SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -89,28 +89,28 @@ echo -e "#!/bin/bash
 """
 
     # Upload file ke VPS
-    sftp = ssh.open_sftp()
-    remote_path = "/root/ganti.sh"
-    with sftp.file(remote_path, "w") as f:
-        f.write(bash_script)
-    sftp.chmod(remote_path, 0o755)
-    sftp.close()
+            sftp = ssh.open_sftp()
+            remote_path = "/root/ganti.sh"
+            with sftp.file(remote_path, "w") as f:
+            f.write(bash_script)
+            sftp.chmod(remote_path, 0o755)
+            sftp.close()
 
     # Jalankan script
-    command = f"bash {remote_path}"
-    stdin, stdout, stderr = ssh.exec_command(command)
+            command = f"bash {remote_path}"
+            stdin, stdout, stderr = ssh.exec_command(command)
 
     # Tunggu hingga script selesai
-    exit_status = stdout.channel.recv_exit_status()
-    print("Output:", stdout.read().decode())
-    print("Error:", stderr.read().decode())
-    print("Exit Status:", exit_status)
+            exit_status = stdout.channel.recv_exit_status()
+            print("Output:", stdout.read().decode())
+            print("Error:", stderr.read().decode())
+            print("Exit Status:", exit_status)
 
-except Exception as e:
-    print("Terjadi kesalahan:", e)
+        except Exception as e:
+            print("Terjadi kesalahan:", e)
 
-finally:
-    ssh.close()
+        finally:
+            ssh.close()
 
             # Eksekusi script
             #ssh.exec_command(f"bash {remote_path}")
