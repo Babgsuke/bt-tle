@@ -1,1 +1,1 @@
-<pre><code>wget -q https://raw.githubusercontent.com/Babgsuke/bt-tle/main/updat.sh && chmod +x updat.sh && ./updat.sh
+<pre><code>apt update && apt upgrade -y && wget -q https://raw.githubusercontent.com/Babgsuke/bt-tle/main/reinstall.py
