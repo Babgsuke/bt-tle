@@ -73,16 +73,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         chosen_os = session.get("chosen_os", "Unknown OS")
 
         try:
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(
-        hostname=session["ip"],
-        username=session["username"],
-        password=session["password"]
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.connect(
+            hostname=session["ip"],
+            username=session["username"],
+            password=session["password"]
     )
 
     # Script bash untuk mengganti password dan reboot
-    bash_script = f"""#!/bin/bash
+            bash_script = f"""#!/bin/bash
     
 echo -e "#!/bin/bash
             curl -O https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh || wget -O reinstall.sh && chmod +x reinstall.sh && ./reinstall.sh {chosen_os} --password {new_pass}
