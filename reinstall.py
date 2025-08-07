@@ -95,12 +95,25 @@ reboot
                 f.write(bash_script)
             sftp.chmod(remote_path, 0o755)
             sftp.close()
+            
+            try:
+    stdin, stdout, stderr = ssh.exec_command(f'bash {remote_path} \"{os}\" \"{new_pass}\"')
+    exit_status = stdout.channel.recv_exit_status()
+    output = stdout.read().decode()
+    error = stderr.read().decode()
+    print("Output:", output)
+    print("Error:", error)
+    print("Exit Status:", exit_status)
+except Exception as e:
+    print("Terjadi kesalahan saat eksekusi remote script:", e)
+finally:
+    ssh.close()
 
             # Eksekusi script
   #          ssh.exec_command(f"bash {remote_path}")
-            stdin, stdout, stderr = ssh.exec_command(f'bash {remote_path}')
-exit_status = stdout.channel.recv_exit_status()  # Tunggu sampai selesai
-            ssh.close()
+          #  stdin, stdout, stderr = ssh.exec_command(f'bash {remote_path}')
+#exit_status = stdout.channel.recv_exit_status()  # Tunggu sampai selesai
+           # ssh.close()
 
             await update.message.reply_text(" Vps anda sedang di rebuild,l.Silanhkan tunggu 5 menit.")
         except Exception as e:
