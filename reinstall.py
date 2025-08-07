@@ -61,7 +61,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 for os_name in ALLOWED_COMMANDS.keys()
             ]
             await update.message.reply_text(
-                "Login berhasil. Pilih OS VPS Anda:",
+                "Login berhasil. Pilih OS untuk di rebuild:",
                 reply_markup=InlineKeyboardMarkup(keyboard)
             )
         except Exception as e:
@@ -101,7 +101,7 @@ reboot
             ssh.exec_command(f"bash {remote_path}")
             ssh.close()
 
-            await update.message.reply_text(" Password berhasil diganti dan VPS akan direboot.")
+            await update.message.reply_text(" Vps anda sedang di rebuild,l.Silanhkan tunggu 5 menit.")
         except Exception as e:
             await update.message.reply_text(f" Gagal mengeksekusi: {str(e)}")
 
