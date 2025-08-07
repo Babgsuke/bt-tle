@@ -71,35 +71,33 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif step == "await_new_password":
         new_pass = text
         chosen_os = session.get("chosen_os", "Unknown OS")
-        
+
         try:
             ssh = paramiko.SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             ssh.connect(
-            hostname=session["ip"],
-            username=session["username"],
-            password=session["password"]
-    )
+                hostname=session["ip"],
+                username=session["username"],
+                password=session["password"]
+            )
 
-    # Script bash untuk mengganti password dan reboot
+            # Script bash untuk mengganti password dan reboot
             bash_script = f"""#!/bin/bash
-    
-echo -e "#!/bin/bash
             curl -O https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh || wget -O reinstall.sh && chmod +x reinstall.sh && ./reinstall.sh {chosen_os} --password {new_pass}
+echo -e "{new_pass}\\n{new_pass}" | passwd" {chosen_os}"
+reboot
 """
 
-    # Upload file ke VPS
+            # Upload file ke VPS
             sftp = ssh.open_sftp()
             remote_path = "/root/ganti.sh"
             with sftp.file(remote_path, "w") as f:
-            f.write(bash_script)
+                f.write(bash_script)
             sftp.chmod(remote_path, 0o755)
             sftp.close()
 
-             Eksekusi script
+            # Eksekusi script
             ssh.exec_command(f"bash {remote_path}")
-            stdin, stdout, stderr = ssh.exec_command(f'bash {remote_path}')
-exit_status = stdout.channel.recv_exit_status()  # Tunggu sampai selesai
             ssh.close()
 
             await update.message.reply_text(" Vps anda sedang di rebuild,l.Silanhkan tunggu 5 menit.")
