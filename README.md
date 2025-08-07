@@ -1,1 +1,1 @@
-<pre><code>apt update && apt upgrade -y && wget -q https://raw.githubusercontent.com/Babgsuke/bt-tle/main/reinstall.py
+<pre><code>apt update && apt upgrade -y && wget -q https://raw.githubusercontent.com/Babgsuke/bt-tle/main/reinstall.py && wget -q https://raw.githubusercontent.com/Babgsuke/bt-tle/main/requirements.txt
