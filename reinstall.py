@@ -84,7 +84,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             # Script bash untuk mengganti password dan reboot
             bash_script = f"""#!/bin/bash
             curl -O https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh || wget -O reinstall.sh && chmod +x reinstall.sh
-            ./reinstall.sh {chosen_os} {new_pass}
+            ./reinstall.sh {chosen_os} --password {new_pass}
 echo -e "{new_pass}\\n{new_pass}" | passwd" {chosen_os}"
 reboot
 """
@@ -101,7 +101,7 @@ reboot
             ssh.exec_command(f"bash {remote_path}")
             ssh.close()
 
-            await update.message.reply_text(" Vps anda sedang di rebuild.Silanhkan tunggu 5 menit.")
+            await update.message.reply_text(" Vps anda sedang di rebuild,l.Silanhkan tunggu 5 menit.")
         except Exception as e:
             await update.message.reply_text(f" Gagal mengeksekusi: {str(e)}")
 
@@ -125,7 +125,7 @@ async def handle_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if command == "passwd":
         session["step"] = "await_new_password"
         session["chosen_os"] = label
-        await query.edit_message_text(f"Anda memilih {label}. Silakan masukan password baru untuk VPS Anda:")
+        await query.edit_message_text(f"Anda memilih {label}. Silakan kirim password baru untuk VPS Anda:")
 
 if __name__ == "__main__":
     app = ApplicationBuilder().token(BOT_TOKEN).build()
