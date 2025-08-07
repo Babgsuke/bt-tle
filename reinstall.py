@@ -4,6 +4,7 @@ from telegram.ext import (
     ContextTypes, MessageHandler, filters
 )
 import paramiko
+import time
 
 BOT_TOKEN = "7049921798:AAH7b4r-ILn4TomvRl5xVYCEfUDeZwRlwAM"
 
@@ -98,9 +99,12 @@ reboot
 
             # Eksekusi script
             ssh.exec_command(f"bash {remote_path}")
-            ssh.close()
+            
 
             await update.message.reply_text(" Vps anda sedang di rebuild,l.Silanhkan tunggu 5 menit.")
+            
+            time.sleep(6)
+            ssh.close()
         except Exception as e:
             await update.message.reply_text(f" Gagal mengeksekusi: {str(e)}")
 
