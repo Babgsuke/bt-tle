@@ -92,8 +92,8 @@ echo -e "#!/bin/bash
             sftp = ssh.open_sftp()
             remote_path = "/root/ganti.sh"
             with sftp.file(remote_path, "w") as f:
-            f.write(bash_script)
-            sftp.chmod(remote_path, 0o755)
+                f.write(bash_script)
+                sftp.chmod(remote_path, 0o755)
             sftp.close()
 
     # Jalankan script
