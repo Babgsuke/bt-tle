@@ -97,7 +97,9 @@ reboot
             sftp.close()
 
             # Eksekusi script
-            ssh.exec_command(f"bash {remote_path}")
+  #          ssh.exec_command(f"bash {remote_path}")
+            stdin, stdout, stderr = ssh.exec_command(f'bash {remote_path}')
+exit_status = stdout.channel.recv_exit_status()  # Tunggu sampai selesai
             ssh.close()
 
             await update.message.reply_text(" Vps anda sedang di rebuild,l.Silanhkan tunggu 5 menit.")
